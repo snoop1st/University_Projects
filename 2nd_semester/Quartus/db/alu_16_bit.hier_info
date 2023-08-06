@@ -1,0 +1,1028 @@
+|alu_16_bit
+a[0] => alu_1_bit:Stage0.a
+a[1] => alu_1_bit:Stage1.a
+a[2] => alu_1_bit:Stage2.a
+a[3] => alu_1_bit:Stage3.a
+a[4] => alu_1_bit:Stage4.a
+a[5] => alu_1_bit:Stage5.a
+a[6] => alu_1_bit:Stage6.a
+a[7] => alu_1_bit:Stage7.a
+a[8] => alu_1_bit:Stage8.a
+a[9] => alu_1_bit:Stage9.a
+a[10] => alu_1_bit:Stage10.a
+a[11] => alu_1_bit:Stage11.a
+a[12] => alu_1_bit:Stage12.a
+a[13] => alu_1_bit:Stage13.a
+a[14] => alu_1_bit:Stage14.a
+a[15] => alu_1_bit:Stage15.a
+b[0] => alu_1_bit:Stage0.b
+b[1] => alu_1_bit:Stage1.b
+b[2] => alu_1_bit:Stage2.b
+b[3] => alu_1_bit:Stage3.b
+b[4] => alu_1_bit:Stage4.b
+b[5] => alu_1_bit:Stage5.b
+b[6] => alu_1_bit:Stage6.b
+b[7] => alu_1_bit:Stage7.b
+b[8] => alu_1_bit:Stage8.b
+b[9] => alu_1_bit:Stage9.b
+b[10] => alu_1_bit:Stage10.b
+b[11] => alu_1_bit:Stage11.b
+b[12] => alu_1_bit:Stage12.b
+b[13] => alu_1_bit:Stage13.b
+b[14] => alu_1_bit:Stage14.b
+b[15] => alu_1_bit:Stage15.b
+opcode[0] => control_circuit:Init.opcode[0]
+opcode[1] => control_circuit:Init.opcode[1]
+opcode[2] => control_circuit:Init.opcode[2]
+res[0] << alu_1_bit:Stage0.res
+res[1] << alu_1_bit:Stage1.res
+res[2] << alu_1_bit:Stage2.res
+res[3] << alu_1_bit:Stage3.res
+res[4] << alu_1_bit:Stage4.res
+res[5] << alu_1_bit:Stage5.res
+res[6] << alu_1_bit:Stage6.res
+res[7] << alu_1_bit:Stage7.res
+res[8] << alu_1_bit:Stage8.res
+res[9] << alu_1_bit:Stage9.res
+res[10] << alu_1_bit:Stage10.res
+res[11] << alu_1_bit:Stage11.res
+res[12] << alu_1_bit:Stage12.res
+res[13] << alu_1_bit:Stage13.res
+res[14] << alu_1_bit:Stage14.res
+res[15] << alu_1_bit:Stage15.res
+overflow << overflow.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|control_circuit:Init
+opcode[0] => Equal0.IN2
+opcode[0] => Equal1.IN2
+opcode[0] => Equal2.IN1
+opcode[0] => Equal3.IN2
+opcode[0] => Equal4.IN1
+opcode[0] => Equal5.IN2
+opcode[0] => Equal6.IN0
+opcode[1] => Equal0.IN1
+opcode[1] => Equal1.IN1
+opcode[1] => Equal2.IN2
+opcode[1] => Equal3.IN1
+opcode[1] => Equal4.IN0
+opcode[1] => Equal5.IN0
+opcode[1] => Equal6.IN2
+opcode[2] => Equal0.IN0
+opcode[2] => Equal1.IN0
+opcode[2] => Equal2.IN0
+opcode[2] => Equal3.IN0
+opcode[2] => Equal4.IN2
+opcode[2] => Equal5.IN1
+opcode[2] => Equal6.IN1
+op[0] <= op[0]$latch.DB_MAX_OUTPUT_PORT_TYPE
+op[1] <= op[1]$latch.DB_MAX_OUTPUT_PORT_TYPE
+ainv <= ainv$latch.DB_MAX_OUTPUT_PORT_TYPE
+binv <= binv$latch.DB_MAX_OUTPUT_PORT_TYPE
+cin <= cin$latch.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage0
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage0|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage0|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage0|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage0|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage1
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage1|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage1|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage1|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage1|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage2
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage2|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage2|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage2|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage2|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage3
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage3|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage3|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage3|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage3|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage4
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage4|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage4|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage4|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage4|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage5
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage5|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage5|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage5|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage5|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage6
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage6|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage6|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage6|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage6|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage7
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage7|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage7|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage7|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage7|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage8
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage8|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage8|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage8|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage8|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage9
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage9|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage9|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage9|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage9|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage10
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage10|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage10|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage10|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage10|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage11
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage11|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage11|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage11|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage11|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage12
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage12|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage12|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage12|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage12|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage13
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage13|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage13|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage13|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage13|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage14
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage14|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage14|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage14|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage14|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage15
+a => mux2_to_1:Step0.in1
+a => mux2_to_1:Step0.in2
+b => mux2_to_1:Step1.in1
+b => mux2_to_1:Step1.in2
+ainv => mux2_to_1:Step0.op
+binv => mux2_to_1:Step1.op
+cin => one_bit_adder:Step4.cin
+op[0] => mux4_to_1:Step6.op[0]
+op[1] => mux4_to_1:Step6.op[1]
+cout <= one_bit_adder:Step4.cout
+res <= mux4_to_1:Step6.out1
+
+
+|alu_16_bit|alu_1_bit:Stage15|mux2_to_1:Step0
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage15|mux2_to_1:Step1
+in1 => out1.DATAB
+in2 => out1.DATAA
+op => out1.OUTPUTSELECT
+out1 <= out1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage15|one_bit_adder:Step4
+in1 => s.IN0
+in1 => s.IN0
+in1 => cout.IN0
+in1 => s.IN0
+in1 => s.IN0
+in2 => s.IN1
+in2 => s.IN1
+in2 => cout.IN0
+in2 => s.IN1
+in2 => s.IN1
+cin => s.IN1
+cin => s.IN1
+cin => cout.IN1
+cin => cout.IN1
+cin => s.IN1
+cin => s.IN1
+s <= s.DB_MAX_OUTPUT_PORT_TYPE
+cout <= cout.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|alu_16_bit|alu_1_bit:Stage15|mux4_to_1:Step6
+in1 => Mux0.IN0
+in2 => Mux0.IN1
+in3 => Mux0.IN2
+in4 => Mux0.IN3
+op[0] => Mux0.IN5
+op[1] => Mux0.IN4
+out1 <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
